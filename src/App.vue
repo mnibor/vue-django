@@ -27,11 +27,7 @@
       NavigationComponentVue,
       FooterComponentVue
     }
-
-
   }
-
-
 </script>
 
 <style>
