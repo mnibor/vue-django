@@ -4,7 +4,7 @@
     <navbar-component-vue></navbar-component-vue>
 
     <!-- NAVIGATION -->
-    <navigation-component-vue></navigation-component-vue>
+    <navigation-component-vue v-if="$route.path === '/about'"></navigation-component-vue>
 
     <router-view/>
 

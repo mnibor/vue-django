@@ -3,15 +3,11 @@
         <h1 class="text-danger">Panadería y Rotisería Carlitos</h1>
         <img class="img-fluid" :src="require('@/assets/img/fondo.png')" alt="">
         <div class="mt-3" v-if="$route.path !== '/about'">
-            <button type="button" class="btn btn-warning" v-for="category in categories" :key="category.id">{{ category.name }}</button>
+            <button type="button" class="btn btn-warning" v-for="category in categories" :key="category.id" @click="getCategoryID(category.id, category.name)">{{ category.name }}</button>
             <hr>
         </div>
     </section>
 </template>
-
-
-
-
 
 <script>
     import axios from 'axios'
@@ -21,7 +17,15 @@
 
         data() {
             return {
-                categories: []
+                categories: [],
+                categoryID: null,
+                categoryName: null
+            }
+        },
+
+        methods: {
+            getCategoryID(categoryID, categoryName) {
+                this.$emit('getCategoryID', categoryID, categoryName)
             }
         },
 
