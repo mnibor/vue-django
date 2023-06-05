@@ -1,33 +1,23 @@
 <template>
   <div class="container">
     <!-- NAVBAR -->
-    <navbar-component-vue></navbar-component-vue>
+    <navbar-component-vue />
 
     <!-- NAVIGATION -->
-    <navigation-component-vue v-if="$route.path === '/about'"></navigation-component-vue>
+    <navigation-component-vue v-if="$route.path === '/about'" />
 
     <router-view/>
 
     <!-- FOOTER -->
-    <footer-component-vue></footer-component-vue>
+    <footer-component-vue />
   </div>
 
 </template>
 
-<script>
+<script setup>
   import NavbarComponentVue from './components/NavbarComponent.vue'
   import NavigationComponentVue from './components/NavigationComponent.vue'
   import FooterComponentVue from './components/FooterComponent.vue'
-
-  export default {
-    name: 'App',
-
-    components: {
-      NavbarComponentVue,
-      NavigationComponentVue,
-      FooterComponentVue
-    }
-  }
 </script>
 
 <style>

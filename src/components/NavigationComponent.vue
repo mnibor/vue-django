@@ -3,57 +3,36 @@
         <h1 class="text-danger">Panadería y Rotisería Carlitos</h1>
         <img class="img-fluid" :src="require('@/assets/img/fondo.png')" alt="">
         <div class="mt-3" v-if="$route.path !== '/about'">
-            <button type="button" class="btn btn-warning" v-for="category in categories" :key="category.id" @click="getCategoryID(category.id, category.name)">{{ category.name }}</button>
+            <button type="button" class="btn btn-warning" v-for="category in categories" :key="category.id" @click="getCategory(category.id, category.name)">{{ category.name }}</button>
             <hr>
         </div>
     </section>
 </template>
 
-<script>
+<script setup>
     import axios from 'axios'
+    import { ref, defineEmits, onMounted } from 'vue'
 
-    export default {
-        name: 'NavigationComponent',
+    const categories = ref([])
+    const categoryID = ref(null)
+    const categoryName = ref(null)
 
-        data() {
-            return {
-                categories: [],
-                categoryID: null,
-                categoryName: null
-            }
-        },
+    const emit = defineEmits(['getCategoryID'])
 
-        methods: {
-            getCategoryID(categoryID, categoryName) {
-                this.$emit('getCategoryID', categoryID, categoryName)
-            }
-        },
-
-        mounted() {
-            axios.get('http://127.0.0.1:8000/api/categories/')
-            .then(response => {
-                this.categories = response.data
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+    const getCategory = (id, name) => {
+        emit('getCategoryID', id, name)
     }
+
+    onMounted(() => {
+        axios.get('http://127.0.0.1:8000/api/categories/')
+        .then(response => {
+            categories.value = response.data
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    })
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <style>
     /* Estilos adicionales del Navigation */
@@ -72,5 +51,4 @@
             box-sizing: border-box;
         }
     }
-
 </style>

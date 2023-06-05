@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- NAVIGATION -->
-    <navigation-component-vue @getCategoryID="categoryID"></navigation-component-vue>
+    <navigation-component-vue @getCategoryID="categoryID" />
 
     <div class="mb-3" v-if="categoryReceived">
       <h3>Productos de la Categoría <strong>{{ categoryReceived }}</strong></h3>
@@ -29,52 +29,39 @@
   </div>
 </template>
 
-<script>
+<script setup>
   import axios from 'axios'
   import NavigationComponentVue from '../components/NavigationComponent.vue'
+  import { ref, onMounted } from 'vue'
 
-  export default {
-    components: {
-      NavigationComponentVue
-    },
+  const products = ref([])
+  const filteredProducts = ref([])
+  const categoryReceived = ref(null)
 
-    name: 'HomeView',
-
-    data() {
-      return {
-        products: [],
-        filteredProducts: [],
-        categoryReceived: null
-      }
-    },
-
-    methods: {
-      categoryID(categoryID, categoryName) {
-        this.categoryReceived = categoryName
-        if(categoryID) {
-          this.filteredProducts = this.allProducts.filter((product) => product.category === categoryID)
-        } else {
-          this.filteredProducts = this.allProducts
-        }
-      },
-
-      resetFilter() {
-        this.categoryReceived = null
-        this.filteredProducts = this.allProducts
-      }
-    },
-
-    mounted() {
-      axios.get('http://127.0.0.1:8000/api/products/')
-      .then(response => {
-        this.allProducts = response.data
-        this.filteredProducts = this.allProducts
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const categoryID = (categoryID, categoryName) => {
+    categoryReceived.value = categoryName
+    if(categoryID) {
+      filteredProducts.value = products.value.filter((product) => product.category === categoryID)
+    } else {
+      filteredProducts.value = products.value
     }
   }
+
+  const resetFilter = () => {
+    categoryReceived.value = null
+    filteredProducts.value = products.value
+  }
+
+  onMounted(() => {
+    axios.get('http://127.0.0.1:8000/api/products/')
+    .then(response => {
+      products.value = response.data
+      filteredProducts.value = products.value
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  })
 </script>
 
 <style>
