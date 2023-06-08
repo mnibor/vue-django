@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- NAVBAR -->
-    <navbar-component-vue />
+    <navbar-component-vue v-if="$route.path != '/'" />
 
     <!-- NAVIGATION -->
     <navigation-component-vue v-if="$route.path === '/about'" />
